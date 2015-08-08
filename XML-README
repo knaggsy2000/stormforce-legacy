@@ -1,0 +1,64 @@
+Starting from v0.5.3, StormForce will no longer accept any command line arguments.  The reason for this is that we're running out of flags very quickly and some people aren't that keen on typing long arguments.  So version v0.5.2 will allow you update to XML and solve these problems.
+
+Please note that the settings XML will be re-written every time StormForce loads - this is so it can be "upgraded".
+
+Below you'll see the list of the XML elements and attributes and there meaning.
+
+
+Please note that all the "*Port" attributes (e.g. LD250Port, StormTrackerPort, etc) accept either local serial or network addresses.
+
+
+Element		Attribute				Meaning
+==================================================================================================
+Setting		DemoMode				Enable/disable demo mode
+Setting		DebugMode				Enable/disable debug mode
+Setting		DatabaseEngine				Database engine to use.  Where 0 = None, 1 = MySQL, and 2 = SQLite
+Setting		ConnectionString			Defines a new connection string for MySQL, e.g. 'hostname/database/username/password'
+Setting		Fullscreen				Enable or disables entering into fullscreen mode after initialisation
+Setting		LD250Port				Use [COM PORT] instead of default, can also be a network address and port e.g. 'tcp://sf-server:1234', 'udp://sf-server:1234', or 'multicast://224.0.0.1:1234' for using multiple clients with one LD-250 unit
+Setting		LD250PortCompression			Specifies the compression method to use when talking to the LD-250.  Where "bz2" = bzip2, "lzma" = lzma, and "" = None
+Setting		LD250PortType				Specifies the port type when in network mode.  Where "TEXT" = text mode and "XML" = XML mode
+Setting		LD250SkewAmount				Skew the angle for the LD-250 by N degrees - useful if you can't rotate the antenna or wish to make adjustments
+Setting		LD250SquelchLevel			Set the squelch level to N after initialising the LD-250, only works when connecting using the COM port
+Setting		StormTrackerPort			Use [COM PORT] instead of default, MUST be a network address and port e.g. "tcp://sf-server:1234", "udp://sf-server:1234", or "multicast://224.0.0.1:1234" for using multiple clients with one StormTracker unit
+Setting		StormTrackerPortCompression		Specifies the compression method to use when talking to the StormTracker.  Where "bz2" = bzip2, "lzma" = lzma, and "" = None
+Setting		StormTrackerPortType			Specifies the port type when in network mode.  Where "TEXT" = text mode and "XML" = XML mode
+Setting		StormTrackerSkewAmount			Skew the angle for the StormTracker by N degrees - useful if you can't rotate the antenna or wish to make adjustments
+Setting		StormTrackerSquelchLevel		Set the squelch level to N after initialising the StormTracker
+Setting		EFM100Port				Use [COM PORT] for the Boltek EFM-100 device, this is optional and is currently in development
+Setting		EFM100PortCompression			Specifies the compression method to use when talking to the EFM-100.  Where "bz2" = bzip2, "lzma" = lzma, and "" = None
+Setting		EFM100PortType				Specifies the port type when in network mode.  Where "TEXT" = text mode and "XML" = XML mode
+Setting		GPSPort					Use [COM PORT] for the GPS NMEA device, if not given the GPS features will be disabled
+Setting		GPSPortCompression			Specifies the compression method to use when talking to the GPS unit.  Where "bz2" = bzip2, "lzma" = lzma, and "" = None
+Setting		GPSPortType				Specifies the port type when in network mode.  Where "TEXT" = text mode and "XML" = XML mode
+Setting		TRACEnabled				Enable/disable TRAC
+Setting		TRACSensitivity				Number of strikes needed in a grid section to trigger TRAC, default is 10
+Setting		TRACStormWidth				Grid area for TRAC (sectors). Use sensible values to track storms successfully - default is 30.  Using a smaller value will make TRAC slower when processing due to more sectors.
+Setting		CloseAlarmArguments			Fires ARGS when the close alarm becomes active (for when you want to fire your own scripts/programs)
+Setting		SevereAlarmArguments			Fires ARGS when the severe alarm becomes active (for when you want to fire your own scripts/programs)
+Setting		TCPListenerPort				Open up TCP port N on all interfaces to allow other StormForce clients to connect, make sure you use the configure the clients correctly!
+Setting		TCPListenerPortCompression		Specifies the compression method to use when talking to clients under TCP.  Where "bz2" = bzip2, "lzma" = lzma, and "" = None
+Setting		UDPListenerPort				Open up UDP port N on all interfaces to allow other StormForce clients to connect, make sure you use the configure the clients correctly!
+Setting		UDPListenerPortCompression		Specifies the compression method to use when talking to clients under UDP.  Where "bz2" = bzip2, "lzma" = lzma, and "" = None
+Setting		MulticastListenerAddress		Specifies the multicast address (224.0.0.X) to use for multicasting the data
+Setting		MulticastListenerPort			Specifies the multicast port to use for multicasting the data
+Setting		MulticastListenerPortCompression	Specifies the compression method to use when multicasting.  Where "bz2" = bzip2, "lzma" = lzma, and "" = None
+Setting		MulticastListenerTTL			Specifies the multicast TTL to use for multicasting the data
+Setting		StrikeShape				Use a different shape for drawing the strikes.  Where 0 = Square, 1 = Triangle, and 2 = Circle
+Setting		SmallCrosshair				Use a small crosshair rather than the large one
+Setting		ShowRedDotOnStrike			On new strikes, show a red-dot in the centre
+Setting		ReconstructionFile			Replays the strikes from the database for the given date on screen for analysis - MAYBE REMOVED LATER
+Setting		ShowRangeCircles			Shows/hides the range circles
+Setting		ServerModeImage				Server mode, creates an image at [IMAGE FILE] every 15 seconds as well as a TRAC report (if it's enabled when needed) - make sure you have "convert" installed (from ImageMagick if not using TGA format)
+Setting		SoundEnabled				Enable/disable sound, disabling is recommended for when using StormForce in server mode and/or for extra performance
+Setting		UseUncorrectedStrikes			Enable/disable using the uncorrected strike distance rather than the corrected one
+Setting		CurlArguments				When given StormForce will upload the lightning image and TRAC report via CURL using the arguments passed.  The filename to upload is a variable so just enter '%%filename%%' and it will take care of the rest.  Make sure you use the "-s" option as well and ensure you specify the same filename defined in the "-s" option.  For CURL options please use the man page (man curl), make sure you force it in upload mode!
+Setting		UserCopyright				User copyright string, you might want to put your copyright and website with this option. Use "\n" to go on the next line for those long strings!
+Setting		BlitzortungGPSLatitude			The GPS latitude (in decimal) to send to blitzortung.org when authenticating
+Setting		BlitzortungGPSLongitude			The GPS longitude (in decimal) to send to blitzortung.org when authenticating
+Setting		BlitzortungHostname			The hostname for the Blitzortung server, usually "blitzortung.org"
+Setting		BlitzortungPassword			Your password for sending strike data to blitzortung.org when authenticating
+Setting		BlitzortungPort				The port number for the Blitzortung server, usually 8309 which is reserved for StormForce
+Setting		BlitzortungUnit				Which unit to send strike data from.  Use "0" for DISABLED (don't send anything), "1" for LD-250, and "2" for the StormTracker
+Setting		BlitzortungUsername			Your username for sending strike data to blitzortung.org when authenticating
+Setting		ZoomDistance				Set the zoom level (in miles) for plotting (recommended: 150, 300, or 400) - ensure you have the PNG map as well (map-N.png)!

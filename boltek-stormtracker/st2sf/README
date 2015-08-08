@@ -1,0 +1,51 @@
+Boltek StormTracker to StormForce Driver (st2sf)
+================================================
+
+*** Currently only Linux is supported until the driver is ported to other operating systems ***
+
+
+First install the driver using the code from the SDK: -
+
+# sudo apt-get update
+# sudo apt-get install linux-headers libc6-dev
+# cd boltek-sdk/driver
+# make
+# mkdir /etc/boltek
+# cp boltek.ko /etc/boltek/boltek.ko
+# cp 77-boltek.rules /etc/udev/rules.d/
+# vi /etc/rc.local (add "insmod boltek.ko" without the quotes before the "exit 0" line)
+
+Test it: -
+
+# insmod /etc/boltek/boltek.ko
+# dmesg
+
+You should see a line similar to "Boltek Lightning Detector started at /dev/lightning-0 major 252 minor 0".  If not something hasn't worked - start again.
+
+
+Now we're ready to build the wrapper program: -
+
+# cd st2sf
+# make
+
+You should now have a executable called "st2sf", before running StormForce run this program like this: -
+
+# ./st2sf 0 12345
+
+This will start the wrapper program setting the StormTracker's squelch level to 0 and using port TCP/12345 for StormForce to connect to.  The wrapper won't start sending sentences until it gets a connection from StormForce.
+
+Section of XML settings file for StormForce to use the wrapper will be: -
+
+	<Setting StormTrackerPort="tcp://localhost:12345"/>
+	<Setting StormTrackerPortCompression=""/>
+	<Setting StormTrackerPortType="TEXT"/>
+	<Setting StormTrackerSkewAmount="0.0"/>
+	<Setting StormTrackerSquelchLevel="0"/>
+
+Please note that the squelch level in the XML is currently ignored since it's defined by the wrapper.
+
+You could also have the wrapper sat on it's own box - just change the hostname and port!  Don't forget to tweak the firewall to allow the connection!
+
+That's it, just startup StormForce and enjoy your StormTracker under Linux, sorted!
+
+<EOF>

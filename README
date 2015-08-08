@@ -1,0 +1,205 @@
+StormForce - Release v0.6.0 on 06/06/2010
+=========================================
+Link: http://code.google.com/p/stormforce/
+Link: http://sourceforge.net/projects/stormforce/
+
+For license and copyright, please see the LICENSE file.
+
+
+Usage
+=====
+On the command line: -
+
+% python stormforce.py
+
+
+Current Features
+================
+1.  Plots strikes on screen as soon as they are received from the Boltek LD-250 and/or Boltek StormTracker
+2.  Basic storm tracking using my implementation of TRAC
+3.  Many variables can be changed (like the squelch, COM port, TRAC settings, etc) by altering the XML settings file
+4.  Ability to create a StormForce server which clients can connect to view strikes via XML/TEXT over TCP and/or UDP (multicast will be added later)
+5.  Plays sound when strikes occur (borrowed from KDE at the moment), sound can be disabled if needed
+6.  Strikes and TRAC is powered by MySQL
+7.  Ability to link to a GPS device and display information from it (will be used later for point 6 in the future features)
+8.  Connects to a Boltek EFM-100 and displays the field level
+9.  Fire external scripts when the close and/or severe alarm is triggered by the LD-250
+10. Allow uploading of server mode image and TRAC report to a website for publication via the CURL binary
+11. Boltek StormTracker PCI works with StormForce but only under Linux (due to the driver)
+12. Compression available on ALL network-based devices (listener, LD-250, etc), you can either use "bz2" or "lzma" - this feature is currently considered to be a beta!  Use with care!
+
+
+Future Features
+===============
+1.  Replay of strikes using the MySQL database for analysis
+2.  Improve TRAC even further
+3.  Show current date and time in current timezone
+4.  Maybe I might add a service that can be exposed internet wise, hmmm...
+5.  Link with a GPS (either connected direct to the LD-250 or via another COM port) and rotate (skew) the strikes accordingly (will also need to move them depending on the direction you're travelling) - almost there now...
+6.  Have the ability to network (link) multiple LD-250 units together and create a centralised, triangulated strike map
+7.  Display a field graph for the EFM-100 data
+8.  Add multicast to reduce bandwidth when acting as a server (not sure how well this works over LAN and/or internet)
+9.  RSA encryption of XML protocol using public/private keys (similar to SSH)
+
+
+Installation
+============
+FreeBSD
+^^^^^^^
+
+Here are the packages I've currently got installed for StormForce to work (some of them will be used in the future): -
+
+================================================================================================================================
+Name			|	Download From		|	Directory
+========================+===============================+=======================================================================
+ImageMagick		|	Ports			|	/usr/ports/graphics/ImageMagick
+curl			|	Ports			|	/usr/ports/ftp/curl
+mysql-server		|	Ports			|	/usr/ports/databases/mysql50-server
+mysql-client		|	Ports			|	/usr/ports/databases/mysql50-client
+py26-MySQLdb		|	Ports			|	/usr/ports/databases/py-MySQLdb
+py26-game		|	Ports			|	/usr/ports/devel/py-game
+py26-lzma		|	Ports			|	/usr/ports/archivers/py-lzma/
+py26-m2crypto		|	Ports			|	/usr/ports/security/py-m2crypto
+py26-numeric		|	Ports			|	/usr/ports/math/py-numeric
+py26-psyco		|	Ports			|	/usr/ports/devel/py-psyco
+py26-serial		|	Ports			|	/usr/ports/comms/py-serial
+python26		|	Ports			|	/usr/ports/lang/python
+================================================================================================================================
+
+You can install them in any order, you might want to make sure the your ports collection is up-to-date.  Python 2.5 is normally installed by default.
+
+
+Linux - (X/K)Ubuntu/Debian
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+Enter the following commands in a terminal session (linux-headers and libc6-dev are needed if you're going to use a Boltek StormTracker): -
+
+sudo apt-get update
+sudo apt-get install mysql-server python-lzma python-pygame python-psyco python-mysqldb python-serial imagemagick curl linux-headers libc6-dev
+
+Linux - CentOS
+^^^^^^^^^^^^^^
+yum install python mysql-server MySQL-python python-game python-numeric
+wget http://rpms.netmindz.net/el5/i386/RPMS.extras/pyserial-2.2-4.el5.noarch.rpm
+wget ftp://ftp.uni-bayreuth.de/pub/redhat.com/fedora/linux/extras/6/i386/python-psyco-1.5.1-4.fc6.i386.rpm
+
+/usr/share/mc/extfs/rpm run /usr/local/src/pyserial-2.2-4.el5.noarch.rpm INSTALL
+/usr/share/mc/extfs/rpm run /usr/local/src/python-psyco-1.5.1-4.fc6.i386.rpm INSTALL
+
+Linux - Others
+^^^^^^^^^^^^^^
+TO DO.
+
+
+Microsoft Windows
+^^^^^^^^^^^^^^^^^
+
+Install the following packages IN ORDER (later versions should be fine): -
+
+================================================================================================================================================================================
+Name						|	Download From
+================================================+===============================================================================================================================
+python-2.5.2.msi				|	http://www.python.org/ftp/python/2.5.2/python-2.5.2.msi
+pygame-1.8.0.win32-py2.5.msi			|	http://www.pygame.org/ftp/pygame-1.8.0.win32-py2.5.msi
+Numeric-24.2.win32-py2.5.exe			|	http://rene.f0o.com/%7Erene/stuff/Numeric-24.2.win32-py2.5.exe
+pywin32-211.win32-py2.5.exe			|	http://downloads.sourceforge.net/pywin32/pywin32-211.win32-py2.5.exe?modtime=1212253052&big_mirror=0&filesize=5381561
+pyserial-2.4.win32.exe				|	http://downloads.sourceforge.net/pyserial/pyserial-2.4.win32.exe?modtime=1215392805&big_mirror=0
+psyco-1.6.win32-py25.exe			|	http://downloads.sourceforge.net/psyco/psyco-1.6.win32-py25.exe?modtime=1199710841&big_mirror=0
+pylzma-0.3.0.win32-py2.5.exe			|	http://www.joachim-bauch.de/projects/python/pylzma/releases/pylzma-0.3.0.win32-py2.5.exe/download
+MySQL-python-1.2.2.win32-py2.5.exe		|	http://downloads.sourceforge.net/mysql-python/MySQL-python-1.2.2.win32-py2.5.exe?modtime=1173863337&big_mirror=0
+M2Crypto-0.19.win32-py2.5.exe			|	http://chandlerproject.org/pub/Projects/MeTooCrypto/M2Crypto-0.19.win32-py2.5.exe
+curl-7.18.2-win32-ssl-sspi.zip			|	http://curl.haxx.se/download/curl-7.18.2-win32-ssl-sspi.zip
+ImageMagick-6.4.2-1-Q8-windows-static.exe	|	http://www.imagemagick.org/download/binaries/ImageMagick-6.4.2-1-Q8-windows-static.exe
+================================================================================================================================================================================
+
+Then you'll need to add the Python directory into your environment path.  Usually, "Control Panel"->"System"->"Advanced"->"Environment Variables"->"System Variables"->ADD ";C:\Python25" to the end of the PATH variable string.
+
+Notice the semi-colon, this IS required otherwise the path won't be valid.
+
+You may also need to add the path to "curl" and "convert" if they don't work.
+
+
+MySQL
+^^^^^
+
+All that StormForce needs is the actual database and username setup, the tables and views will be handled by the program itself.
+
+Login into MySQL as root run the following commands: -
+
+CREATE DATABASE stormforce;
+GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,ALTER,DROP,INDEX,CREATE VIEW,SHOW VIEW ON stormforce.* TO stormforce@yourhostname IDENTIFIED BY 'password';
+
+
+Then give StormForce the connection string like this (ConnectString in XML):
+
+"yourhostname/stormforce/stormforce/password"
+
+
+SQLite
+^^^^^^
+
+Support has been REMOVED starting from v0.6.0.
+
+
+
+
+FAQ
+===
+Q. What are the dependencies for this program?
+A. Python v2.4 or greater (v2.6 is preferred), PyGame, pyMySQLdb (optional), psyco (optional), pyserial, sha, socket, zlib and maybe a few more - however, they are usually installed by default.  You'll (of course) need an X(org/11) server to view the screen and also for saving screenshots (limitation in PyGame?).
+
+Q. What operating systems does it support?
+A. I develop and test StormForce with FreeBSD 8.0 and also Kubuntu (Hardy Heron), it should work in other POSIX compliant operating systems as well other distros of Linux.  I've also got StormForce working under Microsoft Windows.
+
+Q. Can I create (port) of StormForce?
+A. By all means! Be sure to read the LICENSE as your port will inherit the license.
+
+Q. Does this software support the Boltek StormTracker (PCI/ISA)?
+A. Yes, but only the PCI version under Linux.  Currently this requires an additional wrapper program (wrote by me - source included) which shares the StormTracker via TCP for StormForce to use.
+
+Q. Does this software support the Boltek EFM-100?
+A. Yes it does!  I don't actually own one of these but the manual tells me all the information I need.  I've tested it using the demo on efm.lightningmaps.com:3000 (use the EFM100Port in XML option) and it works fine, let me know if it doesn't work with the real thing!
+
+Q. Hey! You've changed the strike/close/noise counters!  What do they mean?
+A. Strikes: XXX YYYYYY ZZZ, XXX is the number of strikes this minute, YYYYYY is the number of strikes since uptime, and ZZZ is the number of out of range strikes.
+   Close:   XXX YYYYYY, XXX is the number of close strikes this minute, YYYYYY is the number of close strikes since uptime.
+   Noise:   XXX YYYYYY, XXX is the number of noise this minute, YYYYYY is the number of noise since uptime.
+
+Q. Your TRAC implementation is rubbish, can you improve it?
+A. It's always getting improved, once the version number of TRAC gets to v1.0.0 or greater I then consider it stable and fully functional.
+
+Q. Why does TRAC only support a map distance of 300 miles?
+A. Fixed in StormForce >= v0.5.0!  Now supports ANY map size.
+
+Q. Why is your first release version v0.4.3?
+A. I've been developing StormForce since January 2008 and I didn't think it was ready for releasing on internet until then.
+
+Q. I've looked at your code and it's rubbish...
+A. Thanks (!), I'm fairly new to Python and PyGame so expect a few bugs!  If you can provide me with any pointers I'll be grateful.
+
+Q. Where can I get some help if I get stuck with configuration of StormForce?
+A. Try the forums or groups with the links at the top. I'll try to help you out if I can!
+
+Q. How do create a map to make the strikes look more interesting?
+A. Easy, create a 600x600 PNG where the the centre is where the antenna is located.  Now you need to decide the range of the map, I believe 300 miles is fine for a Boltek LD-250 otherwise use 400 miles for Boltek StormTracker. Then create the map using GIMP (or your favourite graphics app). Name the image as "map-X.png" where X is the map range (in this case it will be either 300 or 400) and place it in the "png" folder.
+
+Q. Can't I just use Google Maps/Visual Earth (NASA)/etc to create the map?
+A. You could but they will usually be covered by copyright, please create your own instead.
+
+Q. How do I get it create a image for uploading to my website?
+A. Run the program in server mode, a PNG (or whatever) will get created every 15 seconds. You can then upload it using the CURL binary via StormForce, or you can do it yourself.
+
+Q. I've found a bug! What do I do?
+A. Let me know on the forum so I can fix it in a future version.
+
+Q. I would like a feature that's not in StormForce...
+A. That's not a question, but let me know on the forum if it isn't in the future features at the top of this file!
+
+Q. How often do you do updates?
+A. I release them whenever I can, but I'll try to release an update at least once a month.  I'm currently in a full-time job and develop StormForce in my spare time so please, be patient!
+
+
+Legal
+=====
+I am in no way affiliated or in partnership with either Boltek, Google, NASA, or Microsoft.
+
+<EOF>
