@@ -64,7 +64,7 @@ static struct boltek_device {
 
 static DEFINE_SPINLOCK(boltek_lock);
 
-static struct pci_device_id boltek_pci_tbl[] __devinitdata = {
+static struct pci_device_id boltek_pci_tbl[] = {
 	{
 		.vendor = PCI_VENDOR_ID_PLX,
 		.device = PCI_DEVICE_ID_PLX_9050,
@@ -78,9 +78,9 @@ static struct pci_device_id boltek_pci_tbl[] __devinitdata = {
 };
 
 /* Some Prototypes */
-static int __devinit boltek_probe(struct pci_dev *pdev,
+static int boltek_probe(struct pci_dev *pdev,
 				  const struct pci_device_id *pci_id);
-static void __devexit boltek_remove(struct pci_dev *pdev);
+static void boltek_remove(struct pci_dev *pdev);
 static int boltek_open(struct inode *inode, struct file *file);
 static long boltek_unlocked_ioctl(struct file *file, unsigned int cmd,
 				  unsigned long arg);
@@ -242,7 +242,7 @@ static long boltek_unlocked_ioctl(struct file *file, unsigned int cmd,
 	return rv;
 }
 
-static int __devinit boltek_probe(struct pci_dev *pdev,
+static int boltek_probe(struct pci_dev *pdev,
 				  const struct pci_device_id *pci_id)
 {
 	int rv = 0;
@@ -321,7 +321,7 @@ boltek_probe_done:
 	return rv;
 }
 
-static void __devexit boltek_remove(struct pci_dev *pdev)
+static void boltek_remove(struct pci_dev *pdev)
 {
 	device_destroy(detector.class, MKDEV(detector.major, 0));
 
